@@ -83,10 +83,19 @@ expect(request.data).toBe("bar")
 ```
 ...not only is that more verbose than simply making a snapshot but it also wouldn't catch our new property and protect the code from future changes.
 
-### Integration Tests (Selenium, Cypress)
+### Integration Tests (Jest)
+Integration Tests are incredibly useful tests in specific situations, they generally take a _lot_ of time to setup properly but have a high level of confidence payoff. When writing frontend code I would expect most integration tests to use snapshots, but that's not always the case.
+
+When writing integration tests you need to find the right balance between controlling/mocking the data and allowing the various units of code your testing to truly interact.
+
+One excellent use case for writing integration tests in React applications is writing tests around using Context in a component. You can supply the provider to the test render and test all of the interactions of the component, asserting that you get the outcomes you'd expect.
+
+Another good use of an integration test is high level tests around pages in nextjs. These are tests I would generally shy away from using snapshots on the entire container, instead searching the screen for specific elements or text. In chosen-web I have written some tests that assert on the meta tags provided by each page which allows us to confidently change out our third-party module that is handling that in the future. 
+
+### Acceptance Tests (Selenium, Cypress)
 *Useful for: Verifying Common Flows*
 
-Once an app is stable and we have clear expectations it becomes useful to codify those expectations in a series of Integration Tests. This reduces the amount of time our QA engineers need to spend constantly regression testing the same user flows. These tests should be defined by our QA engineers and should represent the flows that they are commonly testing. *These tests should not be written lightly*, they are expensive to maintain because they incorporate all pieces of the puzzle. At my previous employer we used Selenium to drive very specific tests around very specific user flows (ie confirm the user can hit the landing page, navigate to a product detail page, add the item to their cart, etc). These kinds of test catch all sorts of useful bugs like javascript somehow not compiling but they are fairly brittle.
+Once an app is stable and we have clear expectations it becomes useful to codify those expectations in a series of Acceptance Tests. This reduces the amount of time our QA engineers need to spend constantly regression testing the same user flows. These tests should be defined by our QA engineers and should represent the flows that they are commonly testing. *These tests should not be written lightly*, they are expensive to maintain because they incorporate all pieces of the puzzle. At my previous employer we used Selenium to drive very specific tests around very specific user flows (ie confirm the user can hit the landing page, navigate to a product detail page, add the item to their cart, etc). These kinds of test catch all sorts of useful bugs like javascript somehow not compiling but they are fairly brittle.
 
 ### User Experience Tests (Lighthouse)
 
